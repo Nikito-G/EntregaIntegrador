@@ -1,17 +1,35 @@
 import React, { useEffect, useState } from "react";
-import style from "./App.module.css";
-import Cards from "./components/Cards/Cards.jsx";
-import Nav from "./components/Navbar/Nav";
-import axios from "axios";
-import Detail from "./components/Detail/Detail";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import Home from "./components/Home/Home";
+import Nav from "./components/Navbar/Nav";
+import About from "./components/About/About";
+import Form from "./components/Form/Form";
+import Detail from "./components/Detail/Detail";
+import axios from "axios";
+import style from "./App.module.css";
+import Favorites from "./components/Favorites/Favorites";
 
 function App() {
-  // var characters = [] // ASI NO, como estado
+  const navigate = useNavigate(); // Importar useNavigate !!!!!
+  const [access, setAccess] = React.useState(false);
+  const EMAIL = "nico@gmail.com";
+  const PASSWORD = "asd123";
 
-  // const array = useState([]); // Que retorna esta funcion cuando la invoco? --> [ state  , setState ]
-  // const state = array[0]
-  // const setState = array[1]
+  function logout() {
+    setAccess(false);
+  }
+  function login(userData) {
+    if (userData.password === PASSWORD && userData.email === EMAIL) {
+      setAccess(true);
+      navigate("/home");
+    }
+  }
+
+  useEffect(() => {
+    !access && navigate("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [access]);
+
   function onSearch(dato) {
     // agrega personajes a characters
     axios(`https://rickandmortyapi.com/api/character/${dato}`)
@@ -39,26 +57,20 @@ function App() {
 
   const [characters, setCharacters] = useState([]); // [{}]
 
-  // const location = useLocation();
-  // console.log("location", location);
-
-  // let navigate = useNavigate()
-  // function handle(){
-  //   navigate("/algo")
-  // }
+  const location = useLocation();
 
   return (
     <div className={style.App}>
-      <Nav onSearch={onSearch} />
+      {location.pathname !== "/" && <Nav onSearch={onSearch} out={logout} />}
       <Routes>
-        {/* <Route path="*" element={<Nav onSearch={onSearch} />} /> */}
-        <Route path="/" element={<h1>Welcome</h1>} />
         <Route
           path="/home"
-          element={<Cards characters={characters} onClose={onClose} />}
+          element={<Home characters={characters} onClose={onClose} />}
         />
-        <Route path="/about" element={<h1>Soy el about</h1>} />
-        <Route path="/character/:id/:name" element={<Detail />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/" element={<Form login={login} />} />
+        <Route path="/favorites" element={<Favorites />} />
       </Routes>
     </div>
   );
@@ -77,7 +89,3 @@ export default App;
 //   }
 // })
 // .catch((err) => window.alert("¡No hay personajes con este ID!"));
-{
-  /*
-   */
-}

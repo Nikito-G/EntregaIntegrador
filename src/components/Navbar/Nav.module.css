@@ -1,10 +1,25 @@
-.container{
+.container {
     background-color: rgb(135, 91, 135);
     display: flex;
     gap: 20px;
-}
-
-.active{
-    color: yellow;
-}
-
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .container a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px;
+  }
+  
+  .container a:hover {
+    background-color: white;
+    color: rgb(135, 91, 135);
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .btn{
+    background-color: #ab527c
+  }

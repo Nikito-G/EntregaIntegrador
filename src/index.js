@@ -3,11 +3,15 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./redux/store"
 
 ReactDOM.render(
-  // encierro mi app en Browser Router para que funcione la config. de las Routes en App.js
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Provider store={store} >
+  {/* // encierro mi app en Browser Router para que funcione la config. de las Routes en App.js */}
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById("root")
 );
